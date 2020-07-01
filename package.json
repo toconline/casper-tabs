@@ -1,0 +1,8 @@
+{
+  "name": "@cloudware-casper/casper-tabs",
+  "main": "casper-tabs.js",
+  "version": "0.0.0",
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0"
+  }
+}
