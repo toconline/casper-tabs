@@ -45,22 +45,22 @@ class CasperTabs extends PolymerElement {
     super.ready();
 
     this.__tabs = this.shadowRoot.querySelector('slot').assignedElements();
-    this.__tabs.forEach((tab, tabIndex) => {
+    this.__tabs.forEach((currentTab, currentTabIndex) => {
       // Check if there is a tab already active.
-      if (tab.active) this.selectedIndex = tabIndex;
+      if (currentTab.active) this.selectedIndex = currentTabIndex;
 
-      tab.addEventListener('active-changed', () => {
-        if (!tab.active) return;
+      currentTab.addEventListener('active-changed', () => {
+        if (!currentTab.active) return;
 
-        this.selectedIndex = tabIndex;
+        this.selectedIndex = currentTabIndex;
         this.__tabs
-          .filter(tab => tab !== tab)
+          .filter(tab => currentTab !== tab)
           .forEach(tab => tab.active = false);
       });
 
-      tab.addEventListener('disabled-changed', () => {
-        if (!tab.disabled && tabIndex === this.selectedIndex) {
-          tab.active = true;
+      currentTab.addEventListener('disabled-changed', () => {
+        if (!currentTab.disabled && currentTabIndex === this.selectedIndex) {
+          currentTab.active = true;
         }
       });
     });
