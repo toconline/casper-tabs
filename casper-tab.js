@@ -70,6 +70,7 @@ class CasperTab extends PolymerElement {
           padding: 0 15px;
           display: flex;
           align-items: center;
+          justify-content: center;
         }
       </style>
       <div class="tab-container" on-click="__activateTab">

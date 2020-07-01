@@ -22,8 +22,13 @@ class CasperTabs extends PolymerElement {
       <style>
         :host {
           display: flex;
+          width: fit-content;
           border-radius: 15px;
           box-shadow: 0px 2px 12px -1px rgba(0, 0, 0, 0.6);
+        }
+
+        ::slotted(casper-tab) {
+          flex: 1;
         }
 
         ::slotted(casper-tab:first-of-type) {
