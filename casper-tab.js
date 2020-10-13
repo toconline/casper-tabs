@@ -42,14 +42,14 @@ class CasperTab extends PolymerElement {
           white-space: nowrap;
           justify-content: center;
           background-color: white;
-          color: var(--primary-color);
+          color: var(--casper-tabs-primary-color, var(--primary-color));
           border-right: 1px solid var(--disabled-background-color);
           transition: background-color 100ms linear;
         }
 
         :host([active]) {
           color: white;
-          background-color: var(--primary-color);
+          background-color: var(--casper-tabs-primary-color, var(--primary-color));
         }
 
         :host([disabled]) {
@@ -61,7 +61,7 @@ class CasperTab extends PolymerElement {
         :host(:hover) {
           color: white;
           cursor: pointer;
-          background-color: var(--primary-color);
+          background-color: var(--casper-tabs-primary-color, var(--primary-color));
         }
 
         .tab-container {

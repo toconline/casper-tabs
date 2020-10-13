@@ -25,7 +25,7 @@ class CasperTabs extends PolymerElement {
           overflow: hidden;
           width: fit-content;
           border-radius: 15px;
-          border: 1px solid var(--primary-color);
+          border: 1px solid var(--casper-tabs-primary-color, var(--primary-color));
         }
 
         ::slotted(casper-tab) {
