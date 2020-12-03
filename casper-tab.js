@@ -79,10 +79,10 @@ class CasperTab extends PolymerElement {
     `;
   };
 
-  __activateTab (event) {
-    // Stop the bubbling of the event if the tab is currently active.
-    if (this.active) event.stopPropagation();
-
+  /**
+   * This method is invoked when the user clicks on the tab.
+   */
+  __activateTab () {
     this.active = true;
   }
 
