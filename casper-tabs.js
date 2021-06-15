@@ -22,17 +22,28 @@ class CasperTabs extends PolymerElement {
       <style>
         :host {
           display: flex;
-          /* width: fit-content; */
           justify-content: center;
+          width: 100%;
+        }
+
+        /* If the casper-tabs has the filters-theme attribute, we fix the styles which are applied to the tabs of the filters */
+        :host([filters-theme])  #tabsContainer {
+          border: 1px solid rgb(124, 124, 124);
+          box-shadow: none;
+        }
+
+        :host([filters-theme])  #leftArrow, 
+        :host([filters-theme])  #rightArrow {
+          color: rgb(124, 124, 124);
         }
 
         #tabsContainer {
           display: flex;
-          border-radius: 15px;
-          /* border: 1px solid rgb(124, 124, 124); */
-          border: 1px solid var(--casper-tabs-primary-color, var(--primary-color));
           font-size: 14px;
-          margin: 0 15px;
+          margin: 0 10px;
+          border-radius: 15px;
+          border: 1px solid var(--casper-tabs-primary-color, var(--primary-color));
+          box-shadow: 0px 2px 12px -1px rgba(0, 0, 0, 0.6);
           overflow: scroll;
           scroll-behavior: smooth;
           -ms-overflow-style: none;  /* Hides scrollbar for IE and Edge */
@@ -55,8 +66,9 @@ class CasperTabs extends PolymerElement {
         #leftArrow, #rightArrow {
           display: flex;
           align-items: center;
-          color: rgb(124, 124, 124);
+          color: white;
           cursor: pointer;
+          visibility: hidden;
         }
       </style>
 
@@ -96,21 +108,13 @@ class CasperTabs extends PolymerElement {
       });
     });
 
-
-
-
-    // ver se isto é necessário (e corrigir condição)
-      // if (casperTabs.offsetWidth < casperTabsContainer.offsetWidth) {
-      //   rightArrow.style.visibility = 'hidden';
-      //   leftArrow.style.visibility = 'hidden';
-      // }
-
-    // This will observe the resize of the given elements (entries)
+    // This will observe the resize of the given elements (entries).
+    // In this case, it's responsible for displaying the arrows when necessary, to scroll.
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.target.tagName === 'CASPER-TABS') {
           const casperTabs = entry.target;
-          const allTabs = casperTabs.querySelectorAll('casper-tab');
+          const allTabs = casperTabs.shadowRoot.querySelector('slot').assignedElements();
           const leftArrow = casperTabs.shadowRoot.querySelector('#leftArrow');
           const rightArrow = casperTabs.shadowRoot.querySelector('#rightArrow');
 
@@ -131,9 +135,9 @@ class CasperTabs extends PolymerElement {
     });
     resizeObserver.observe(this);
 
-    this.$.leftArrow.addEventListener('click', this.__scrollFiltersTabs.bind(this, 'left', 150));
-    this.$.rightArrow.addEventListener('click', this.__scrollFiltersTabs.bind(this, 'right', 150));
-    this.$.tabsContainer.addEventListener('click', event => this.__findTabsScrollDirection(event));
+    this.$.leftArrow.addEventListener('click', this.__scrollTabsContainer.bind(this, 'left', 150));
+    this.$.rightArrow.addEventListener('click', this.__scrollTabsContainer.bind(this, 'right', 150));
+    this.$.tabsContainer.addEventListener('click', event => this.__findScrollDirection(event));
   }
 
   /**
@@ -148,13 +152,13 @@ class CasperTabs extends PolymerElement {
   }
 
   /**
-     * This function fires when the user clicks on a scroll arrow. It is responsible for scrolling the casper tabs.
+     * This function fires when the user clicks on an arrow. It is responsible for scrolling the casper tabs.
      *
      * @param {String} direction The direction of the scroll.
      * @param {Number} value The value of the scroll.
      */
-   __scrollFiltersTabs (direction, value) {
-    const tabsContainer = this.shadowRoot.querySelector('#tabsContainer');
+  __scrollTabsContainer (direction, value) {
+    const tabsContainer = this.$.tabsContainer;
     const leftArrow = this.$.leftArrow;
     const rightArrow = this.$.rightArrow;
 
@@ -164,7 +168,7 @@ class CasperTabs extends PolymerElement {
       tabsContainer.scrollLeft -= value;
     }
     
-    // Here we need a timeout to make sure that the scroll-behavior: smooth has finished
+    // A timeout is needed to make sure that the scroll-behavior: smooth has finished
     setTimeout(() => {
       // Here we're at the end of the scroll
       if ((tabsContainer.offsetWidth + tabsContainer.scrollLeft) > tabsContainer.scrollWidth) {
@@ -184,20 +188,18 @@ class CasperTabs extends PolymerElement {
 
   /**
      * This function fires when the user clicks on the tabs container. 
-     * It is responsible for finding whether the tabs should scroll left or right.
+     * It is responsible for finding whether the tabs container should be scrolled left or right.
      *
      * @param {Object} event The event's object.
      */
-   __findTabsScrollDirection (event) { 
+  __findScrollDirection (event) { 
     if (event && event.currentTarget) {
       const tabsContainer = event.currentTarget;
 
       // Here there's no need to scroll
       if (tabsContainer.offsetWidth >= tabsContainer.scrollWidth) return;
 
-      const tabIndex = this.selectedIndex;
-      const selectedTab = tabsContainer.querySelector('slot').assignedElements()[tabIndex];
-
+      const currentTab = this.__tabs[this.selectedIndex];
       const middleX = tabsContainer.offsetWidth / 2;
       const clickX = event.clientX - tabsContainer.getBoundingClientRect().left;
 
@@ -208,9 +210,8 @@ class CasperTabs extends PolymerElement {
         direction = 'left';
       }
       
-      const scrollValue = selectedTab.offsetWidth;
-    
-      this.__scrollFiltersTabs(direction, scrollValue);
+      const scrollValue = currentTab.offsetWidth;
+      this.__scrollTabsContainer(direction, scrollValue);
     }
   }
 }
