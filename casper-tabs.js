@@ -55,20 +55,20 @@ class CasperTabs extends PolymerElement {
           display: none;
         }
 
-        ::slotted(casper-tab) {
-          flex: 1;
-        }
-
-        ::slotted(casper-tab:last-of-type) {
-          border-right: none;
-        }
-
         #leftArrow, #rightArrow {
           display: flex;
           align-items: center;
           color: white;
           cursor: pointer;
           visibility: hidden;
+        }
+
+        ::slotted(casper-tab) {
+          flex: 1;
+        }
+
+        ::slotted(casper-tab:last-of-type) {
+          border-right: none;
         }
       </style>
 
@@ -135,8 +135,8 @@ class CasperTabs extends PolymerElement {
     });
     resizeObserver.observe(this);
 
-    this.$.leftArrow.addEventListener('click', this.__scrollTabsContainer.bind(this, 'left', 150));
-    this.$.rightArrow.addEventListener('click', this.__scrollTabsContainer.bind(this, 'right', 150));
+    this.$.leftArrow.addEventListener('click', event => this.__scrollTabsContainer('left', 150));
+    this.$.rightArrow.addEventListener('click', event => this.__scrollTabsContainer('right', 150));
     this.$.tabsContainer.addEventListener('click', event => this.__findScrollDirection(event));
   }
 
