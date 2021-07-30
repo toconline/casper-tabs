@@ -35,6 +35,7 @@ class CasperTabs extends PolymerElement {
         :host([filters-theme])  #leftArrow, 
         :host([filters-theme])  #rightArrow {
           color: rgb(124, 124, 124);
+          filter: none;
         }
 
         #tabsContainer {
@@ -61,6 +62,7 @@ class CasperTabs extends PolymerElement {
           color: white;
           cursor: pointer;
           visibility: hidden;
+          filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.7));
         }
 
         ::slotted(casper-tab) {
