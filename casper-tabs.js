@@ -26,16 +26,16 @@ class CasperTabs extends PolymerElement {
           width: 100%;
         }
 
-        /* If the casper-tabs has the filters-theme attribute, we fix the styles which are applied to the tabs of the filters */
-        :host([filters-theme])  #tabsContainer {
-          border: 1px solid rgb(124, 124, 124);
-          box-shadow: none;
+        /* If the casper-tabs are slotted inside the casper-epaper-tabs, we fix the styles which are applied there */
+        :host([slot="casper-epaper-tabs"]) #tabsContainer {
+          border: 1px solid var(--casper-tabs-primary-color, var(--primary-color));
+          box-shadow: 0px 2px 12px -1px rgba(0, 0, 0, 0.6);
         }
 
-        :host([filters-theme])  #leftArrow, 
-        :host([filters-theme])  #rightArrow {
-          color: rgb(124, 124, 124);
-          filter: none;
+        :host([slot="casper-epaper-tabs"]) #leftArrow, 
+        :host([slot="casper-epaper-tabs"]) #rightArrow {
+          color: white;
+          filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.7));
         }
 
         #tabsContainer {
@@ -43,8 +43,7 @@ class CasperTabs extends PolymerElement {
           font-size: 14px;
           margin: 0 10px;
           border-radius: 15px;
-          border: 1px solid var(--casper-tabs-primary-color, var(--primary-color));
-          box-shadow: 0px 2px 12px -1px rgba(0, 0, 0, 0.6);
+          border: 1px solid rgb(124, 124, 124);
           overflow: scroll;
           scroll-behavior: smooth;
           -ms-overflow-style: none;  /* Hides scrollbar for IE and Edge */
@@ -59,10 +58,9 @@ class CasperTabs extends PolymerElement {
         #leftArrow, #rightArrow {
           display: flex;
           align-items: center;
-          color: white;
+          color: rgb(124, 124, 124);
           cursor: pointer;
           visibility: hidden;
-          filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.7));
         }
 
         ::slotted(casper-tab) {
