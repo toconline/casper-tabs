@@ -59,9 +59,9 @@ class CasperTab extends PolymerElement {
         }
 
         :host(:hover) {
-          color: white;
+          color: var(--primary-color);
           cursor: pointer;
-          background-color: var(--casper-tabs-primary-color, var(--primary-color));
+          background-color: var(--light-primary-color, var(--casper-tabs-primary-color));
         }
 
         .tab-container {
