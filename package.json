@@ -1,5 +1,5 @@
 {
-  "name": "@cloudware-casper/casper-tabs",
+  "name": "@toconline/casper-tabs",
   "main": "casper-tabs.js",
   "version": "2.0.1",
   "dependencies": {
